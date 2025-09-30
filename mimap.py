@@ -5,12 +5,11 @@
 #     "matplotlib-map-utils",
 # ]
 # ///
-
 import sys
 import re
+
 import matplotlib.pyplot as plt
 from matplotlib_map_utils.core.north_arrow import north_arrow
-import matplotlib.font_manager as fm
 
 # sample input for syncyng X & Z
 input_data = """
