@@ -1,0 +1,4 @@
+
+
+ruff:
+	uvx ruff check
