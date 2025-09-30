@@ -43,8 +43,6 @@ FIG_SIZE=10
 # input_data = sys.stdin.read()
 
 def main():
-    print(input_data)
-
     locations = _extract_locations(input_data)
 
     # Extract X/Z for plotting
@@ -73,15 +71,24 @@ def main():
     # Save instead of show
     output_file = "minecraft_map.png"
     plt.savefig(output_file, dpi=300, bbox_inches="tight")
-    print(f"✅ Map saved to {output_file}")
+    print(f"Map saved to: {output_file} 🌍")
 
 def _extract_locations(input_data):
+    nonempty_lines = []
+    for line in input_data.strip().splitlines():
+        if line.strip() == "":
+            continue
+        if line.startswith('#'):
+            continue
+        nonempty_lines.append(line)
+
+    print(f"Found {len(nonempty_lines):,} lines, parsing... 🔍")
 
     # Regex to match "Name: X / Y / Z"
     pattern = re.compile(r"^(.*?):\s*(-?\d+)\s*/\s*(-?\d+)\s*/\s*(-?\d+)$")
 
     locations = {}
-    for line in input_data.strip().splitlines():
+    for line in nonempty_lines:
         match = pattern.match(line.strip())
         if match:
             name, x, y, z = match.groups()
@@ -91,7 +98,10 @@ def _extract_locations(input_data):
         print("❌ No valid coordinates found. Make sure input format is: Name: X / Y / Z")
         sys.exit(1)
 
-    print(f"Found {len(locations)} locations: {locations}")
+    print(f"Found {len(locations):,} locations ✅")
+
+    if len(locations) != len(nonempty_lines):
+        print(f"{len(nonempty_lines) - len(locations):,} row(s) weren't parsed 🔥")
 
     return locations
 
