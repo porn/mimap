@@ -39,4 +39,3 @@ Usage improvements:
 - [ ] specify output file name
 - [ ] doc install & run using uv
 - [ ] allow duplicate labels
-- [ ] Z is drawn reversed

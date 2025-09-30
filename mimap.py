@@ -54,10 +54,11 @@ def main():
     # Create plot
     fig, ax = plt.subplots(figsize=(FIG_SIZE, FIG_SIZE))
     ax.scatter(x, z, c="blue", marker="x")
+    ax.yaxis.set_inverted(True)
 
     # Add labels
     for name, (x_coord, z_coord) in locations.items():
-        ax.text(x_coord + LABEL_OFFSET, z_coord + LABEL_OFFSET, name, fontsize=8)
+        ax.text(x_coord + LABEL_OFFSET, z_coord - LABEL_OFFSET, name, fontsize=8)
 
     # Titles & labels
     ax.set_title("Minecraft World Map")
@@ -84,7 +85,7 @@ def _extract_locations(input_data):
         match = pattern.match(line.strip())
         if match:
             name, x, y, z = match.groups()
-            locations[name.strip()] = (int(x), -int(z))  # keep only X and Z
+            locations[name.strip()] = (int(x), int(z))  # keep only X and Z
 
     if not locations:
         print("❌ No valid coordinates found. Make sure input format is: Name: X / Y / Z")
