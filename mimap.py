@@ -11,8 +11,10 @@ import re
 import matplotlib.pyplot as plt
 from matplotlib_map_utils.core.north_arrow import north_arrow
 
-# sample input for syncyng X & Z
-input_data = """
+LABEL_OFFSET=15
+FIG_SIZE=10
+
+sample_input_data = """
 Spawn: 0 / 0 / 0
 Village Home: -120 / 94 / -220
 Portal: -124 / 85 / -178
@@ -25,15 +27,52 @@ Underwater Portal: -326 / 62 / 106
 Zombie spawner: -22  / 23 / -366
 """
 
-LABEL_OFFSET=15
-FIG_SIZE=10
-
-# Read from stdin
-# input_data = sys.stdin.read()
 
 def main():
+    input_filename, output_file = _parse_args(sys.argv)
+    input_data = _load_input(input_filename)
     locations = _extract_locations(input_data)
+    _draw_figure(locations, output_file)
 
+
+def _parse_args(argv: list[str]) -> tuple[str, str]:
+    if len(argv) < 2:
+        _print_usage(argv[0])
+        return '*', 'minecraft_map.png'
+
+    return argv[1], 'minecraft_map.png'
+
+
+def _print_usage(program_name):
+    print(f"""
+    Usage: {program_name} INPUT_FILE [OPTIONS]
+
+    Compile INPUT_FILE with coordinates into image.
+
+    If INPUT_FILE is -, read from standard input.
+
+    If no INPUT_FILE is given, then sample hard-coded data is used.
+    """)
+
+
+def _load_input(input_filename: str) -> str:
+    match input_filename:
+        case "*":
+            return sample_input_data
+
+        case "-":
+            return sys.stdin.read()
+
+        case _:
+            try:
+                with open(input_filename) as f:
+                    return f.read()
+            except FileNotFoundError:
+                print(f"Input file '{input_filename}' not found 😵")
+                sys.exit(1)
+
+
+def _draw_figure(locations, output_file):
     # Extract X/Z for plotting
     x = [coord[0] for coord in locations.values()]
     z = [coord[1] for coord in locations.values()]
@@ -58,7 +97,6 @@ def main():
     north_arrow(ax=ax, location="upper right", rotation={"degrees": 0})
 
     # Save instead of show
-    output_file = "minecraft_map.png"
     plt.savefig(output_file, dpi=300, bbox_inches="tight")
     print(f"Map saved to: {output_file} 🌍")
 
