@@ -16,43 +16,13 @@ input_data = """
 Spawn: 0 / 0 / 0
 Village Home: -120 / 94 / -220
 Portal: -124 / 85 / -178
-
-Underwater Vilage: -231 / 62 / 339
-
-Underwater Vilage2: 90 / 62 / 712
-South Treasure: -295 / 62 / 1447
-
-Shipwreck2: -632 / 62 / 476
+Underwater Village: -231 / 62 / 339
+Underwater Village2: 90 / 62 / 712
+Shipwreck: -632 / 62 / 476
 Outpost: -882 / 62 / 272
-
 Underwater sand Village: -549 / 62 / 83
 Underwater Portal: -326 / 62 / 106
-
-Broken Portal: 337 / 97 / -333
 Zombie spawner: -22  / 23 / -366
-
-Jungle pyramid: -630 / 64 / -857
-
-Village2: -669 / 64 / -468
-
-Small Hill Village: 606 / 109 / -216
-
-Great Double Village3: 1487 / 76 / 300
-East Village: 1434 / 64 / -225
-East Dry Shipwreck: 1034 / 67 / -608
-
-Village4: 130 /79 /868
-Ocean Monument: -200 / 62 / 745
-Shipwreck: -107 / 62 / 691
-
-South Underwater Village (2 sea lanterns): 1370 / 62 / 1127
-Savana Village: 189 / 94 / -915
-
-West Underwater village: -1155 / 62 / -500
-West Beautiful Shipwreck: -1290 / 62 / -720
-West Ocean Monument: -1290 / 62 / -187
-West deep trasure: -1278 / 62 / 451
-*Southwest shipwreck: -1403 / 63 / 1855
 """
 
 LABEL_OFFSET=15
