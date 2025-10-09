@@ -18,13 +18,13 @@ sample_input_data = """
 Spawn: 0 / 0 / 0
 Village Home: -120 / 94 / -220
 Portal: -124 / 85 / -178
+Zombie spawner: -22  / 23 / -366
 Underwater Village: -231 / 62 / 339
 Underwater Village2: 90 / 62 / 712
 Shipwreck: -632 / 62 / 476
 Outpost: -882 / 62 / 272
 Underwater sand Village: -549 / 62 / 83
 Underwater Portal: -326 / 62 / 106
-Zombie spawner: -22  / 23 / -366
 """
 
 

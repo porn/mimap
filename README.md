@@ -4,15 +4,17 @@ Create a simple Minecraft schematic map from your notes.
 
 ## Usage:
 
-This is my current game's coordinates notes:
-```
+This is a sample game's coordinates notes:
+```markdown
+# home area
 Spawn: 0 / 0 / 0
-
 Village Home: -120 / 94 / -220
 Portal: -124 / 85 / -178
 
+# mines
 Zombie spawner: -22  / 23 / -366
 
+# my first sea trip
 Underwater Village: -231 / 62 / 339
 Underwater Village2: 90 / 62 / 712
 Shipwreck: -632 / 62 / 476
