@@ -3,6 +3,7 @@
 # dependencies = [
 #     "matplotlib",
 #     "matplotlib-map-utils",
+#     "PyQt5",
 # ]
 # ///
 import sys
@@ -36,23 +37,46 @@ def main():
 
 
 def _parse_args(argv: list[str]) -> tuple[str, str]:
-    if len(argv) < 2:
-        _print_usage(argv[0])
-        return '*', 'minecraft_map.png'
+    # defaults
+    input_filename = '*'  # use sample data
+    output_filename = '-'  # draw using matplotlib
 
-    return argv[1], 'minecraft_map.png'
+    program_name = argv[0]
+
+    # no arguments given
+    if len(argv) < 2:
+        _print_usage(program_name)
+        return input_filename, output_filename
+
+    input_filename = argv[1]
+    if input_filename in ['-h', '--help']:
+        _print_usage(program_name)
+        sys.exit(0)
+
+    # only INPUT_FILE given
+    if len(argv) == 2:
+        return input_filename, output_filename
+
+    # INPUT_FILE and OUTPUT_FILE given
+    output_filename = argv[2]
+    if len(argv) == 3:
+        return input_filename, output_filename
+
+    # more arguments given
+    _print_usage(program_name)
+    sys.exit(1)
 
 
 def _print_usage(program_name):
     print(f"""
-    Usage: {program_name} INPUT_FILE [OPTIONS]
+Minecraft Map builder.
 
-    Compile INPUT_FILE with coordinates into image.
+Usage: {program_name} [INPUT_FILE] [OUTPUT_FILE]
 
-    If INPUT_FILE is -, read from standard input.
+Compile INPUT_FILE with coordinates into image. If INPUT_FILE is -, read from standard input. If no INPUT_FILE is given, then sample hard-coded data is used.
 
-    If no INPUT_FILE is given, then sample hard-coded data is used.
-    """)
+Optionally, you can provide OUTPUT_FILE as the name of the file to store image to (png format hardcoded). If no OUTPUT_FILE is given, then try to draw using matplotlib.
+    """.strip())
 
 
 def _load_input(input_filename: str) -> str:
@@ -96,9 +120,12 @@ def _draw_figure(locations, output_file):
     # Add north arrow (Minecraft north = decreasing Z, so arrow points up)
     north_arrow(ax=ax, location="upper right", rotation={"degrees": 0})
 
-    # Save instead of show
-    plt.savefig(output_file, dpi=300, bbox_inches="tight")
-    print(f"Map saved to: {output_file} 🌍")
+    # Show or save image
+    if output_file == '-':
+        plt.show()
+    else:
+        plt.savefig(output_file, dpi=300, bbox_inches="tight")
+        print(f"Map saved to: {output_file} 🌍")
 
 def _extract_locations(input_data):
     nonempty_lines = []

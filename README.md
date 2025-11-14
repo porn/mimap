@@ -28,9 +28,7 @@ After running `./mimap.py` you get this:
 
 # TODO
 Usage improvements:
-- [ ] specify output file name (e.g. ~/mymap.png, mymap.png)
 - [ ] output filename based on input file name, or some sane default for stdin and sample data
 - [ ] doc install & run using uv
 - [ ] allow duplicate labels
-- [ ] allow plt.show() somehow
 - [ ] file watch? 🤔
