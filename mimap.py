@@ -7,7 +7,6 @@
 # ]
 # ///
 import sys
-import re
 
 import matplotlib.pyplot as plt
 from matplotlib_map_utils.core.north_arrow import north_arrow
@@ -138,15 +137,14 @@ def _extract_locations(input_data):
 
     print(f"Found {len(nonempty_lines):,} lines, parsing... 🔍")
 
-    # Regex to match "Name: X / Y / Z"
-    pattern = re.compile(r"^(.*?):\s*(-?\d+)\s*/\s*(-?\d+)\s*/\s*(-?\d+)$")
-
+    unparsed_lines = []
     locations = {}
     for line in nonempty_lines:
-        match = pattern.match(line.strip())
-        if match:
-            name, x, y, z = match.groups()
-            locations[name.strip()] = (int(x), int(z))  # keep only X and Z
+        try:
+            name, x, y, z = _parse_line(line)
+            locations[name] = (x, z)  # keep only X and Z
+        except ValueError:
+            unparsed_lines.append(line)
 
     if not locations:
         print("❌ No valid coordinates found. Make sure input format is: Name: X / Y / Z")
@@ -154,10 +152,19 @@ def _extract_locations(input_data):
 
     print(f"Found {len(locations):,} locations ✅")
 
-    if len(locations) != len(nonempty_lines):
-        print(f"{len(nonempty_lines) - len(locations):,} row(s) weren't parsed 🔥")
+    if unparsed_lines:
+        print(f"🔥 {len(unparsed_lines):,} unparsed line(s) found:")
+        for line in unparsed_lines:
+            print(line)
+        print("\nNOTE: you can prefix comments with # symbol to get rid of this warning ✏️️")
 
     return locations
+
+def _parse_line(line: str) -> tuple[str, int, int, int]:
+    name, coords = line.split(":")
+    x, y, z = map(int, coords.split("/"))
+
+    return name.strip(), x, y, z
 
 
 if __name__ == '__main__':
