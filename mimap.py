@@ -36,6 +36,9 @@ def main():
 
 
 def _parse_args(argv: list[str]) -> tuple[str, str]:
+    """
+    TODO: doctest
+    """
     # defaults
     input_filename = '*'  # use sample data
     output_filename = '-'  # draw using matplotlib

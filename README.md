@@ -32,3 +32,4 @@ Usage improvements:
 - [ ] doc install & run using uv
 - [ ] allow duplicate labels
 - [ ] file watch? 🤔
+- [ ] dynamic `LABEL_OFFSET`
