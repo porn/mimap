@@ -30,6 +30,5 @@ After running `./mimap.py` you get this:
 Usage improvements:
 - [ ] output filename based on input file name, or some sane default for stdin and sample data
 - [ ] doc install & run using uv
-- [ ] allow duplicate labels
 - [ ] file watch? 🤔
 - [ ] dynamic `LABEL_OFFSET`

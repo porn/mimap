@@ -20,7 +20,7 @@ Village Home: -120 / 94 / -220
 Portal: -124 / 85 / -178
 Zombie spawner: -22  / 23 / -366
 Underwater Village: -231 / 62 / 339
-Underwater Village2: 90 / 62 / 712
+Underwater Village: 90 / 62 / 712
 Shipwreck: -632 / 62 / 476
 Outpost: -882 / 62 / 272
 Underwater sand Village: -549 / 62 / 83
@@ -100,8 +100,8 @@ def _load_input(input_filename: str) -> str:
 
 def _draw_figure(locations, output_file):
     # Extract X/Z for plotting
-    x = [coord[0] for coord in locations.values()]
-    z = [coord[1] for coord in locations.values()]
+    x = [coord[0] for _, coord in locations]
+    z = [coord[1] for _, coord in locations]
 
     # Create plot
     fig, ax = plt.subplots(figsize=(FIG_SIZE, FIG_SIZE))
@@ -109,7 +109,7 @@ def _draw_figure(locations, output_file):
     ax.yaxis.set_inverted(True)
 
     # Add labels
-    for name, (x_coord, z_coord) in locations.items():
+    for name, (x_coord, z_coord) in locations:
         ax.text(x_coord + LABEL_OFFSET, z_coord - LABEL_OFFSET, name, fontsize=8)
 
     # Titles & labels
@@ -141,11 +141,11 @@ def _extract_locations(input_data):
     print(f"Found {len(nonempty_lines):,} lines, parsing... 🔍")
 
     unparsed_lines = []
-    locations = {}
+    locations = []
     for line in nonempty_lines:
         try:
             name, x, y, z = _parse_line(line)
-            locations[name] = (x, z)  # keep only X and Z
+            locations.append((name, (x, z)))  # keep only X and Z
         except ValueError:
             unparsed_lines.append(line)
 
