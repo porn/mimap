@@ -37,8 +37,20 @@ def main():
 
 def _parse_args(argv: list[str]) -> tuple[str, str]:
     """
-    TODO: doctest
+    >>> _parse_args(['mimap.py'])  # doctest: +ELLIPSIS
+    Minecraft Map builder.
+    ...
+    ('*', '-')
+    >>> _parse_args(['mimap.py', 'notes.md'])
+    ('notes.md', '-')
+    >>> _parse_args(['mimap.py', 'notes.md', 'output.png'])
+    ('notes.md', 'output.png')
+    >>> _parse_args(['mimap.py', '*', 'output.png'])
+    ('*', 'output.png')
+    >>> _parse_args(['mimap.py', 'notes.md', '-'])
+    ('notes.md', '-')
     """
+
     # defaults
     input_filename = '*'  # use sample data
     output_filename = '-'  # draw using matplotlib
