@@ -104,7 +104,7 @@ def _draw_figure(locations, output_file):
     z = [coord[1] for _, coord in locations]
 
     # Create plot
-    fig, ax = plt.subplots(figsize=(FIG_SIZE, FIG_SIZE))
+    _, ax = plt.subplots(figsize=(FIG_SIZE, FIG_SIZE))
     ax.scatter(x, z, c="blue", marker="x")
     ax.yaxis.set_inverted(True)
 
@@ -144,7 +144,7 @@ def _extract_locations(input_data):
     locations = []
     for line in nonempty_lines:
         try:
-            name, x, y, z = _parse_line(line)
+            name, x, _, z = _parse_line(line)
             locations.append((name, (x, z)))  # keep only X and Z
         except ValueError:
             unparsed_lines.append(line)
