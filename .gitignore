@@ -12,3 +12,4 @@ wheels/
 # IDEs
 *.vim
 *.sw[po]
+.idea
