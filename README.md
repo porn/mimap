@@ -28,7 +28,7 @@ After running `./mimap.py` you get this:
 
 # TODO
 Usage improvements:
-- [ ] output filename based on input file name, or some sane default for stdin and sample data
+- [ ] output filename based on input file name, or some sane default for sample data
 - [ ] doc install & run using uv
 - [ ] file watch? 🤔
 - [ ] dynamic `LABEL_OFFSET`

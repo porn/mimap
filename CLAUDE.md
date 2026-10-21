@@ -12,7 +12,7 @@ mimap is a Minecraft map visualization tool that parses coordinates from markdow
 
 **Core Flow**:
 1. Parse command-line arguments to determine input source and output destination (mimap.py:38-69)
-2. Load input data from file, stdin, or use sample data (mimap.py:88-102)
+2. Load input data from file or use sample data
 3. Extract location coordinates from text using pattern matching (mimap.py:136-168)
 4. Render matplotlib plot with markers, labels, and north arrow (mimap.py:105-134)
 
@@ -27,7 +27,6 @@ Using uv (recommended):
 ./mimap.py                              # Run with sample data, display interactive plot
 ./mimap.py notes.md                     # Parse notes.md, display plot
 ./mimap.py notes.md output.png          # Parse notes.md, save to output.png
-./mimap.py - output.png                 # Read from stdin, save to output.png
 ./mimap.py "*" minecraft_map_new.png    # Use sample data, save to file
 ```
 
@@ -48,8 +47,6 @@ uv sync
 # Test with sample data
 ./mimap.py "*" test_output.png
 
-# Test with stdin
-cat notes.md | ./mimap.py - output.png
 ```
 
 **Check Python environment**:

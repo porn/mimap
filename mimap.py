@@ -75,27 +75,22 @@ Minecraft Map builder.
 
 Usage: {program_name} [INPUT_FILE] [OUTPUT_FILE]
 
-Compile INPUT_FILE with coordinates into image. If INPUT_FILE is -, read from standard input. If no INPUT_FILE is given, then sample hard-coded data is used.
+Compile INPUT_FILE with coordinates into image. If no INPUT_FILE is given, then sample hard-coded data is used.
 
 Optionally, you can provide OUTPUT_FILE as the name of the file to store image to (png format hardcoded). If no OUTPUT_FILE is given, then try to draw using matplotlib.
     """.strip())
 
 
 def _load_input(input_filename: str) -> str:
-    match input_filename:
-        case "*":
-            return sample_input_data
+    if input_filename == "*":
+        return sample_input_data
 
-        case "-":
-            return sys.stdin.read()
-
-        case _:
-            try:
-                with open(input_filename) as f:
-                    return f.read()
-            except FileNotFoundError:
-                print(f"Input file '{input_filename}' not found 😵")
-                sys.exit(1)
+    try:
+        with open(input_filename) as f:
+            return f.read()
+    except FileNotFoundError:
+        print(f"Input file '{input_filename}' not found 😵")
+        sys.exit(1)
 
 
 def _draw_figure(locations, output_file):
