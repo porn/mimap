@@ -12,13 +12,14 @@ mimap is a Minecraft map visualization tool that parses coordinates from markdow
 
 **Core Flow**:
 1. `_parse_args`: Determine input source and output destination.
-2. `_load_input`: Load input data from a file or use sample data.
-3. `_extract_locations` and `_parse_line`: Split text into names and integer coordinates.
-4. `_draw_figure`: Render a matplotlib plot with markers, labels, and a north arrow.
+2. `_read_input_text`: Load input data from a file or use sample data.
+3. `_parse_locations` and `_parse_location_line`: Split text into names and integer coordinates.
+4. `main` creates the figure and calls `_render_map` to draw markers, labels, and a north arrow.
+5. `main` calls `_save_map_png` for a one-time export or `_show_live_map` for an interactive map with input watching, then closes the figure on exit.
 
-**Coordinate System**: Uses Minecraft's coordinate system (X, Y, Z) but only plots X and Z for 2D visualization. `_extract_locations` discards Y, and `_draw_figure` inverts the vertical plot axis to match Minecraft's convention where north = decreasing Z.
+**Coordinate System**: Uses Minecraft's coordinate system (X, Y, Z) but only plots X and Z for 2D visualization. `_parse_locations` discards Y, and `_render_map` inverts the vertical plot axis to match Minecraft's convention where north = decreasing Z.
 
-**Input Format**: `_parse_line` expects `Name: X / Y / Z`, with integer coordinates, exactly one colon, and exactly three slash-separated coordinate values. `_extract_locations` skips blank lines and lines starting with `#`.
+**Input Format**: `_parse_location_line` expects `Name: X / Y / Z`, with integer coordinates, exactly one colon, and exactly three slash-separated coordinate values. `_parse_locations` skips blank lines and lines starting with `#`.
 
 ## Running the Application
 
@@ -59,13 +60,17 @@ uv pip list  # Show packages in the project environment, not the script's isolat
 
 ## Key Configuration
 
-- `LABEL_OFFSET`: Label offset in map coordinate units; `_draw_figure` adds it to X and subtracts it from Z.
+- `LABEL_OFFSET`: Label offset in map coordinate units; `_render_map` adds it to X and subtracts it from Z.
 - `FIG_SIZE`: Width and height of the square figure in inches.
-- `sample_input_data`: Hardcoded sample coordinates used by `_load_input` when the input filename is `*`.
+- `sample_input_data`: Hardcoded sample coordinates used by `_read_input_text` when the input filename is `*`.
 
 ## Special Behaviors
 
 - `_parse_args`: With no arguments, prints usage information and continues with sample data and an interactive plot. `-h` or `--help` prints usage and exits with code 0; excess arguments cause exit code 1.
-- `_load_input`: If the input file is not found, exits with code 1.
-- `_extract_locations`: If no valid coordinates are parsed, exits with code 1. Otherwise, unparsed lines generate a warning suggesting the `#` prefix for comments.
-- `_draw_figure`: When the output file is `-` or omitted, calls `plt.show()` to display an interactive plot. Otherwise, saves the figure to the supplied filename.
+- `_read_input_text`: Reads a file or returns sample data. Read errors propagate to the caller.
+- `_parse_locations`: Raises `ValueError` if no valid coordinates are parsed. Otherwise, unparsed lines generate a warning suggesting the `#` prefix for comments.
+- `main`: Initial input errors exit with code 1. Reload errors keep the last valid map.
+- `main`: A file output saves PNG once and exits without watching. An omitted output or `-` opens an interactive map.
+- `_save_map_png`: Saves PNG using an atomic file replacement.
+- `_show_live_map`: Displays an interactive plot and checks for input changes every 500 ms using a GUI timer with a local callback. Changed input is processed after two consecutive identical reads, including invalid input only once per change. Sample data is not watched.
+- `_update_map_view`: Redraws the map while preserving zoom and position and updating toolbar Home to fit current locations.
